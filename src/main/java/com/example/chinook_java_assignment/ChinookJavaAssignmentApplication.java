@@ -1,6 +1,6 @@
 package com.example.chinook_java_assignment;
 
-import datasource.ConnectionBuilder;
+import com.example.chinook_java_assignment.datasource.ConnectionBuilder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

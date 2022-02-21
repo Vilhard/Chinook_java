@@ -1,24 +1,24 @@
 package service;
 
-import dao.CustomerDao;
 import model.Customer;
 
 import java.util.List;
 
-public class CustomerService implements CustomerDao {
+public class CustomerRepositoryImpl implements CustomerRepository {
+
     @Override
     public List<Customer> getAllCustomers() {
         return null;
     }
 
     @Override
-    public void getCustomerById(Integer id) {
-
+    public Customer getCustomerById(Integer id) {
+        return null;
     }
 
     @Override
-    public void getCustomerByName(String name) {
-
+    public Customer getCustomerByName(String name) {
+    return null;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package datasource;
+package com.example.chinook_java_assignment.datasource;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

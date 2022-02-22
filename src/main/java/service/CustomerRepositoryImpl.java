@@ -9,13 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public Collection<Customer> getAllCustomers() {
-        List<Customer> customers = new ArrayList<>();
+        Collection<Customer> customers = new ArrayList<>();
         try {
             Connection conn = ConnectionHelper.getInstance().getConnection();
             String query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email  FROM Customer";

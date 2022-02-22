@@ -8,11 +8,11 @@ import java.util.Collection;
 @RestController
 @RequestMapping("api")
 public class CustomerController {
-    @GetMapping("customer/{customerId")
+    @GetMapping("customer/{customerId}")
     public Collection<Customer> getAllCustomers() {
         return null;
     }
-    @GetMapping("customer/{customerId")
+    @GetMapping("customer/{customerId}")
     Customer getCustomerById(@PathVariable String customerId) {
         return null;
     }

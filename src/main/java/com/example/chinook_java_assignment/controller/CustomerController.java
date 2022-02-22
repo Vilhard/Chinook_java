@@ -1,27 +1,28 @@
 package com.example.chinook_java_assignment.controller;
 
-import com.example.chinook_java_assignment.data.service.CustomerRepositoryImpl;
+import com.example.chinook_java_assignment.data.service.CustomerRepository;
 import com.example.chinook_java_assignment.model.Customer;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("api")
 public class CustomerController {
-    CustomerRepositoryImpl custRepoImpl = new CustomerRepositoryImpl();
+    CustomerRepository customerRepository = new CustomerRepository();
 
     @GetMapping("customer")
     public Collection<Customer> getAllCustomers() {
-        return custRepoImpl.getAllCustomers();
+        return customerRepository.getAllCustomers();
     }
     @GetMapping("customer/{customerId}")
     Customer getCustomerById(@PathVariable String customerId) {
         return null;
     }
     @GetMapping("customer/{customerName}")
-        Customer getCustomerByName(@PathVariable String customerName) {
-            return null;
+        public List<Customer> getCustomerByName(@PathVariable String customerName ) {
+            return customerRepository.getCustomerByName(customerName);
         }
     @PostMapping("customer")
     public Customer addCustomer(Customer customer) {

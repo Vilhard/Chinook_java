@@ -32,7 +32,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public Customer getCustomerById(Integer id) {
+    public Customer getCustomerById(String customerId) {
         return null;
     }
 
@@ -54,12 +54,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public void getPageOfCustomers(Integer limit, Integer offset) {
+    public void getPageOfCustomers(String limit, String offset) {
 
     }
 
     @Override
-    public void addCustomer(Customer customer) {
-
+    public Customer addCustomer(Customer customer) {
+        return null;
     }
 }

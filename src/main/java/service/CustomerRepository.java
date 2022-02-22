@@ -9,8 +9,8 @@ import java.util.List;
 @Repository
 public interface CustomerRepository  {
     Collection<Customer> getAllCustomers();
-    Customer getCustomerById(Integer id);
-    Customer getCustomerByName(String name);
-    void getPageOfCustomers(Integer limit, Integer offset);
-    void addCustomer(Customer customer);
+    Customer getCustomerById(String customerId);
+    Customer getCustomerByName(String customerName);
+    void getPageOfCustomers(String limit, String offset);
+    Customer addCustomer(Customer customer);
 }

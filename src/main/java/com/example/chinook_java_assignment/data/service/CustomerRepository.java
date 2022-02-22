@@ -34,28 +34,44 @@ public class CustomerRepository implements ICustomerRepository {
     }
 
     @Override
-    public Customer getCustomerById(String customerId) {
-        return null;
-    }
-
-    @Override
-    public List<Customer> getCustomerByName(String customerName) {
-        List<Customer> customers = new ArrayList<>();
+    public Customer getCustomerById(String id) {
+        Customer customer = null;
         Connection conn = ConnectionHelper.getInstance().getConnection();
-        String query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email  FROM Customer WHERE FirstName LIKE = ?";
+        String query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email  FROM Customer WHERE customerId = ?";
         try {
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, customerName);
+            statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Customer customer = new Customer(resultSet.getInt("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
+                customer = new Customer(resultSet.getInt("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
                         resultSet.getString("Country"), resultSet.getString("PostalCode"), resultSet.getString("Phone"), resultSet.getString("Email"));
-                customers.add(customer);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return customers;
+        System.out.println(customer);
+        return customer;
+    }
+
+    @Override
+    public Customer getCustomerByName(String name) {
+        Customer customer = null;
+        Connection conn = ConnectionHelper.getInstance().getConnection();
+        String query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email  FROM Customer WHERE FirstName LIKE ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, name + '%');
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+               customer = new Customer(resultSet.getInt("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
+                        resultSet.getString("Country"), resultSet.getString("PostalCode"), resultSet.getString("Phone"), resultSet.getString("Email"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(customer);
+        return customer;
     }
 
     @Override

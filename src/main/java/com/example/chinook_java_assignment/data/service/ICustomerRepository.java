@@ -10,7 +10,7 @@ import java.util.List;
 public interface ICustomerRepository {
     Collection<Customer> getAllCustomers();
     Customer getCustomerById(String customerId);
-    List<Customer> getCustomerByName(String customerName);
+    Customer getCustomerByName(String customerName);
     void getPageOfCustomers(String limit, String offset);
     Customer addCustomer(Customer customer);
 }

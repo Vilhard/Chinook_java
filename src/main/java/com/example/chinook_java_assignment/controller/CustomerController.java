@@ -16,13 +16,13 @@ public class CustomerController {
     public Collection<Customer> getAllCustomers() {
         return customerRepository.getAllCustomers();
     }
-    @GetMapping("customer/{customerId}")
-    Customer getCustomerById(@PathVariable String customerId) {
-        return null;
+    @GetMapping("customer/id/{id}")
+    Customer getCustomerById(@PathVariable String id) {
+        return customerRepository.getCustomerById(id);
     }
-    @GetMapping("customer/{customerName}")
-        public List<Customer> getCustomerByName(@PathVariable String customerName ) {
-            return customerRepository.getCustomerByName(customerName);
+    @GetMapping("customer/name/{name}")
+        public Customer getCustomerByName(@PathVariable String name ) {
+            return customerRepository.getCustomerByName(name);
         }
     @PostMapping("customer")
     public Customer addCustomer(Customer customer) {

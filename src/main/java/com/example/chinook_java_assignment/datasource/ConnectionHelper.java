@@ -4,19 +4,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionBuilder {
+public class ConnectionHelper {
     static final String URL = "jdbc:sqlite::resource:Chinook_Sqlite.sqlite";
-    static private ConnectionBuilder instance;
+    static private ConnectionHelper instance;
     private static Connection connection;
 
-    public static ConnectionBuilder getInstance(){
+    public static ConnectionHelper getInstance(){
         if(instance == null) {
-            instance = new ConnectionBuilder();
+            instance = new ConnectionHelper();
         }
         return instance;
     }
 
-    private ConnectionBuilder(){
+    private ConnectionHelper(){
         try {
             connection = DriverManager.getConnection(URL);
         } catch (SQLException sqe) {

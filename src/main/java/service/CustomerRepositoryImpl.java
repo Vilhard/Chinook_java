@@ -1,6 +1,6 @@
 package service;
 
-import com.example.chinook_java_assignment.datasource.ConnectionBuilder;
+import com.example.chinook_java_assignment.datasource.ConnectionHelper;
 import model.Customer;
 
 import java.sql.Connection;
@@ -17,7 +17,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public Collection<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();
         try {
-            Connection conn = ConnectionBuilder.getInstance().getConnection();
+            Connection conn = ConnectionHelper.getInstance().getConnection();
             String query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email  FROM Customer";
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -38,7 +38,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public Customer getCustomerByName(String name) {
-        Connection conn = ConnectionBuilder.getInstance().getConnection();
+        Connection conn = ConnectionHelper.getInstance().getConnection();
         String query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email  FROM Customer WHERE FirstName = ?";
         try {
             PreparedStatement statement = conn.prepareStatement(query);

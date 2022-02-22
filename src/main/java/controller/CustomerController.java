@@ -1,4 +1,4 @@
-package api;
+package controller;
 
 import model.Customer;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package service;
+package data.service;
 
 import model.Customer;
 import org.springframework.stereotype.Repository;

@@ -1,6 +1,6 @@
-package service;
+package data.service;
 
-import com.example.chinook_java_assignment.datasource.ConnectionHelper;
+import data.ConnectionHelper;
 import model.Customer;
 
 import java.sql.Connection;

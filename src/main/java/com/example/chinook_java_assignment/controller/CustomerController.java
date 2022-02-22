@@ -25,12 +25,12 @@ public class CustomerController {
             return customerRepository.getCustomerByName(name);
         }
     @PostMapping("customer")
-    public Customer addCustomer(Customer customer) {
-    return null;
+    public Customer addCustomer(@RequestBody Customer customer) {
+        return customerRepository.addCustomer(customer);
     }
-    @GetMapping("customer/{limit}/{offset}")
-    void getPageOfCustomers(@PathVariable String limit, @PathVariable String offset){
-
+    @GetMapping("customer/limit/{limit}/offset/{offset}")
+    public List<Customer> getPageOfCustomers(@PathVariable Integer limit, @PathVariable Integer offset){
+        return customerRepository.getPageOfCustomers(limit, offset);
     }
 }
 

@@ -18,11 +18,11 @@ public class CustomerRepository implements ICustomerRepository {
         Collection<Customer> customers = new ArrayList<>();
         try {
             Connection conn = ConnectionHelper.getInstance().getConnection();
-            String query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email  FROM Customer";
+            String query = "SELECT * FROM Customer";
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                Customer customer = new Customer(resultSet.getInt("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
+                Customer customer = new Customer(resultSet.getString("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
                         resultSet.getString("Country"), resultSet.getString("PostalCode"), resultSet.getString("Phone"), resultSet.getString("Email"));
                 customers.add(customer);
             }
@@ -43,14 +43,13 @@ public class CustomerRepository implements ICustomerRepository {
             statement.setString(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                customer = new Customer(resultSet.getInt("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
+                customer = new Customer(resultSet.getString("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
                         resultSet.getString("Country"), resultSet.getString("PostalCode"), resultSet.getString("Phone"), resultSet.getString("Email"));
 
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(customer);
         return customer;
     }
 
@@ -64,23 +63,53 @@ public class CustomerRepository implements ICustomerRepository {
             statement.setString(1, name + '%');
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-               customer = new Customer(resultSet.getInt("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
+               customer = new Customer(resultSet.getString("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
                         resultSet.getString("Country"), resultSet.getString("PostalCode"), resultSet.getString("Phone"), resultSet.getString("Email"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(customer);
         return customer;
     }
 
     @Override
-    public void getPageOfCustomers(String limit, String offset) {
-
+    public List<Customer> getPageOfCustomers(Integer limit, Integer offset) {
+        List<Customer> customers = new ArrayList<>();
+        Connection conn = ConnectionHelper.getInstance().getConnection();
+        String query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email  FROM Customer LIMIT ? OFFSET ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, limit);
+            statement.setInt(2, offset);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Customer customer = new Customer(resultSet.getString("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
+                        resultSet.getString("Country"), resultSet.getString("PostalCode"), resultSet.getString("Phone"), resultSet.getString("Email"));
+                customers.add(customer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
     }
 
     @Override
-    public Customer addCustomer(Customer customer) {
-        return null;
+    public Customer addCustomer(Customer newCustomer) {
+        Connection conn = ConnectionHelper.getInstance().getConnection();
+        String query = "INSERT INTO Customer (CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email) VALUES(?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, newCustomer.CustomerId);
+            statement.setString(2,newCustomer.FirstName);
+            statement.setString(3,newCustomer.LastName);
+            statement.setString(4,newCustomer.Country);
+            statement.setString(5,newCustomer.PostalCode);
+            statement.setString(6,newCustomer.Phone);
+            statement.setString(7,newCustomer.Email);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return newCustomer;
     }
 }

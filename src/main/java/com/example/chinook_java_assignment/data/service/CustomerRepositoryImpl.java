@@ -1,7 +1,7 @@
-package data.service;
+package com.example.chinook_java_assignment.data.service;
 
-import data.ConnectionHelper;
-import model.Customer;
+import com.example.chinook_java_assignment.data.ConnectionHelper;
+import com.example.chinook_java_assignment.model.Customer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

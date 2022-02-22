@@ -1,6 +1,6 @@
-package data.service;
+package com.example.chinook_java_assignment.data.service;
 
-import model.Customer;
+import com.example.chinook_java_assignment.model.Customer;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;

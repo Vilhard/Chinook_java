@@ -1,4 +1,4 @@
-package data;
+package com.example.chinook_java_assignment.data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

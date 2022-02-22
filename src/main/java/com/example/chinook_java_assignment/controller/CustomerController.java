@@ -1,6 +1,6 @@
-package controller;
+package com.example.chinook_java_assignment.controller;
 
-import model.Customer;
+import com.example.chinook_java_assignment.model.Customer;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package model;
+package com.example.chinook_java_assignment.model;
 
 public class Customer {
     private final Integer CustomerId;

@@ -21,13 +21,15 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-
+                Customer customer = new Customer(resultSet.getInt("customerId"),resultSet.getString("FirstName"), resultSet.getString("LastName"),
+                        resultSet.getString("Country"), resultSet.getString("PostalCode"), resultSet.getString("Phone"), resultSet.getString("Email"));
+                customers.add(customer);
             }
 
         } catch (SQLException e){
             e.printStackTrace();
         }
-        return null;
+        return customers;
     }
 
     @Override
@@ -36,12 +38,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public Customer getCustomerByName(String name) {
+    public Customer getCustomerByName(String customerName) {
         Connection conn = ConnectionHelper.getInstance().getConnection();
         String query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email  FROM Customer WHERE FirstName = ?";
         try {
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, name);
+            statement.setString(1, customerName);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 //map to dto and return

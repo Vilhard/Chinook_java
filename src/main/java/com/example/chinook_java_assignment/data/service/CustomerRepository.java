@@ -2,6 +2,9 @@ package com.example.chinook_java_assignment.data.service;
 
 import com.example.chinook_java_assignment.data.ConnectionHelper;
 import com.example.chinook_java_assignment.model.Customer;
+import com.example.chinook_java_assignment.model.CustomerCountry;
+import com.example.chinook_java_assignment.model.CustomerGenre;
+import com.example.chinook_java_assignment.model.CustomerSpender;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -112,4 +115,108 @@ public class CustomerRepository implements ICustomerRepository {
         }
         return newCustomer;
     }
+
+
+    //Update an existing customer
+    @Override
+    public void updateCustomer(Customer customer) {
+        Connection conn = ConnectionHelper.getInstance().getConnection();
+        String query = "UPDATE Customer SET (FirstName , LastName, Country, PostalCode, Phone, Email) VALUES(?,?,?,?,?,?) WHERE CustomerId = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, customer.FirstName);
+            statement.setString(2, customer.LastName);
+            statement.setString(3, customer.Country);
+            statement.setString(4, customer.PostalCode);
+            statement.setString(5, customer.Phone);
+            statement.setString(6, customer.Email);
+            statement.setString(7, customer.CustomerId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Return the number of customers in each country, ordered descending (high to low). i.e. USA: 13, …
+    @Override
+    public ArrayList<CustomerCountry> getNumberOfCustomersByCountry (){
+
+        Connection conn = ConnectionHelper.getInstance().getConnection();
+        ArrayList<CustomerCountry> customerNumbers;
+        customerNumbers = new ArrayList<CustomerCountry>();
+        String query = "SELECT Country, COUNT(CustomerId) AS total FROM Customer GROUP BY Country ORDER BY total DESC" ;
+
+        try{
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                CustomerCountry customerCountry = new CustomerCountry(resultSet.getString("Country"),resultSet.getInt("Total"));
+                customerNumbers.add(customerCountry);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customerNumbers;
+    }
+
+
+    //Customers who are the highest spenders (total in invoice table is the largest), ordered descending
+
+    @Override
+    public CustomerSpender getTopSpendingCustomers() {
+        Connection conn = ConnectionHelper.getInstance().getConnection();
+        CustomerSpender customerSpender = new CustomerSpender();
+
+        try{
+            String query = "SELECT Customer.CustomerId, SUM(Invoice.Total) AS total FROM Customer, Invoice WHERE Customer.CustomerId = Invoice.CustomerId GROUP BY Customer.CustomerId ORDER BY total DESC";
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                customerSpender.AddCustomerSpendings(resultSet.getInt("customerId"), resultSet.getDouble("total"));
+            }
+
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+
+        return customerSpender;
+    }
+
+
+    //For a given customer, their most popular genre (in the case of a tie, display both). Most popular in this context
+    //means the genre that corresponds to the most tracks from invoices associated to that customer.
+    @Override
+    public CustomerGenre GetMostPopularGenreByCustomerId(int customerId){
+        Connection conn = ConnectionHelper.getInstance().getConnection();
+        CustomerGenre customerGenres = new CustomerGenre();
+        ArrayList<Integer> customerGenreTotals = new ArrayList<Integer>();
+        String query ="SELECT Genre.Name, COUNT(Genre.Name) AS amount FROM Customer, Invoice, InvoiceLine, Track, Genre WHERE Customer.CustomerId = Invoice.CustomerId AND Invoice.CustomerId = InvoiceLine.InvoiceId AND InvoiceLine.TrackId = Track.TrackId AND Track.GenreId = Genre.GenreId AND Customer.CustomerId = ? GROUP BY Genre.Name ORDER BY amount DESC";
+        try {
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, customerId);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                customerGenreTotals.add(resultSet.getInt(""));
+
+                int maximum = customerGenreTotals.get(0);
+                for (int i = 1; i < customerGenreTotals.size(); i++) {
+                    if (maximum < customerGenreTotals.get(i))
+                        maximum = customerGenreTotals.get(i);
+                }
+                if (maximum == resultSet.getInt("total")) {
+                    customerGenres.AddGenreTotal(resultSet.getString("Genre.Name"), resultSet.getInt("amount"));
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

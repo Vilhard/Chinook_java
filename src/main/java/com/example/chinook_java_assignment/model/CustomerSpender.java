@@ -1,22 +1,35 @@
 package com.example.chinook_java_assignment.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CustomerSpender {
 
-    public HashMap<Integer, Double> getCustomerSpendings() {
+    public ArrayList<CustomerSpendings> getCustomerSpendings() {
         return CustomerSpendings;
     }
 
-    public void setCustomerSpendings(HashMap<Integer, Double> customerSpendings) {
+    public void setCustomerSpendings(ArrayList<CustomerSpendings> customerSpendings) {
         CustomerSpendings = customerSpendings;
     }
 
 
-    HashMap<Integer, Double> CustomerSpendings = new HashMap<Integer, Double>();
+    ArrayList<CustomerSpendings> CustomerSpendings = new ArrayList<CustomerSpendings>();
 
     public void AddCustomerSpendings(int customerId, double spendings) {
-        CustomerSpendings.put(customerId, spendings);
+        CustomerSpendings customerSpendings = new CustomerSpendings(customerId, spendings);
+        CustomerSpendings.add(customerSpendings);
+    }
+
+    public static class CustomerSpendings {
+        public int customerId;
+        public double spendings;
+
+        CustomerSpendings(int id, double spending) {
+            customerId = id;
+            spendings = spending;
+        }
     }
 
 

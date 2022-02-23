@@ -18,8 +18,8 @@ public class CustomerCountry {
         Count = count;
     }
 
-    public String Name;
-    public int Count;
+    private String Name;
+    private int Count;
 
 
     public CustomerCountry(String name, int count){

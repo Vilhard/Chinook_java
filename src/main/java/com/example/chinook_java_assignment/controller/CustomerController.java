@@ -2,8 +2,12 @@ package com.example.chinook_java_assignment.controller;
 
 import com.example.chinook_java_assignment.data.service.CustomerRepository;
 import com.example.chinook_java_assignment.model.Customer;
+import com.example.chinook_java_assignment.model.CustomerCountry;
+import com.example.chinook_java_assignment.model.CustomerGenre;
+import com.example.chinook_java_assignment.model.CustomerSpender;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,6 +36,21 @@ public class CustomerController {
     public List<Customer> getPageOfCustomers(@PathVariable Integer limit, @PathVariable Integer offset){
         return customerRepository.getPageOfCustomers(limit, offset);
     }
+
+
+    @PutMapping("customer")
+    public Customer updateCustomer(@RequestBody Customer customer) {return customerRepository.updateCustomer(customer);}
+
+    @GetMapping("statistics/customers")
+    public ArrayList<CustomerCountry> getNumberOfCustomersByCountry() {return customerRepository.getNumberOfCustomersByCountry();}
+
+    @GetMapping("statistics/spending")
+    public CustomerSpender getTopSpendingCustomers() {return customerRepository.getTopSpendingCustomers();}
+
+    @GetMapping("customer/favorite/{id}")
+    public CustomerGenre getMostPopularGenreByCustomerId(@PathVariable String id) {return customerRepository.getMostPopularGenreByCustomerId(id);}
+
+
 }
 
 

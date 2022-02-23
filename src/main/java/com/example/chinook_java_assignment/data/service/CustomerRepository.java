@@ -119,9 +119,9 @@ public class CustomerRepository implements ICustomerRepository {
 
     //Update an existing customer
     @Override
-    public void updateCustomer(Customer customer) {
+    public Customer updateCustomer(Customer customer) {
         Connection conn = ConnectionHelper.getInstance().getConnection();
-        String query = "UPDATE Customer SET (FirstName , LastName, Country, PostalCode, Phone, Email) VALUES(?,?,?,?,?,?) WHERE CustomerId = ?";
+        String query = "UPDATE Customer SET Firstname=?, LastName=?, Country=?, PostalCode=?, Phone=?, Email=? WHERE CustomerId = ?";
         try {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, customer.FirstName);
@@ -135,6 +135,7 @@ public class CustomerRepository implements ICustomerRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return customer;
     }
 
     //Return the number of customers in each country, ordered descending (high to low). i.e. USA: 13, …
@@ -142,8 +143,7 @@ public class CustomerRepository implements ICustomerRepository {
     public ArrayList<CustomerCountry> getNumberOfCustomersByCountry (){
 
         Connection conn = ConnectionHelper.getInstance().getConnection();
-        ArrayList<CustomerCountry> customerNumbers;
-        customerNumbers = new ArrayList<CustomerCountry>();
+        ArrayList<CustomerCountry> customerNumbers = new ArrayList<CustomerCountry>();
         String query = "SELECT Country, COUNT(CustomerId) AS total FROM Customer GROUP BY Country ORDER BY total DESC" ;
 
         try{
@@ -152,6 +152,7 @@ public class CustomerRepository implements ICustomerRepository {
             while (resultSet.next()) {
                 CustomerCountry customerCountry = new CustomerCountry(resultSet.getString("Country"),resultSet.getInt("Total"));
                 customerNumbers.add(customerCountry);
+
             }
         } catch(SQLException e) {
             e.printStackTrace();
@@ -189,26 +190,28 @@ public class CustomerRepository implements ICustomerRepository {
     //For a given customer, their most popular genre (in the case of a tie, display both). Most popular in this context
     //means the genre that corresponds to the most tracks from invoices associated to that customer.
     @Override
-    public CustomerGenre GetMostPopularGenreByCustomerId(int customerId){
+    public CustomerGenre getMostPopularGenreByCustomerId(String customerId){
+
+
         Connection conn = ConnectionHelper.getInstance().getConnection();
         CustomerGenre customerGenres = new CustomerGenre();
         ArrayList<Integer> customerGenreTotals = new ArrayList<Integer>();
         String query ="SELECT Genre.Name, COUNT(Genre.Name) AS amount FROM Customer, Invoice, InvoiceLine, Track, Genre WHERE Customer.CustomerId = Invoice.CustomerId AND Invoice.CustomerId = InvoiceLine.InvoiceId AND InvoiceLine.TrackId = Track.TrackId AND Track.GenreId = Genre.GenreId AND Customer.CustomerId = ? GROUP BY Genre.Name ORDER BY amount DESC";
         try {
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setInt(1, customerId);
+            statement.setString(1, customerId);
 
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                customerGenreTotals.add(resultSet.getInt(""));
+                customerGenreTotals.add(resultSet.getInt("amount"));
 
                 int maximum = customerGenreTotals.get(0);
                 for (int i = 1; i < customerGenreTotals.size(); i++) {
                     if (maximum < customerGenreTotals.get(i))
                         maximum = customerGenreTotals.get(i);
                 }
-                if (maximum == resultSet.getInt("total")) {
-                    customerGenres.AddGenreTotal(resultSet.getString("Genre.Name"), resultSet.getInt("amount"));
+                if (maximum == resultSet.getInt("amount")) {
+                    customerGenres.AddGenreTotal(resultSet.getString("Name"), resultSet.getInt("amount"));
                 }
             }
 
@@ -216,7 +219,7 @@ public class CustomerRepository implements ICustomerRepository {
             e.printStackTrace();
         }
 
-        return null;
+        return customerGenres;
     }
 
 }

@@ -17,7 +17,7 @@ The console application can be used to choose different operations that call the
 
 
 
-The are multiple methods you can call:
+There are multiple methods you can call:
 
 
 - display all customers ```GetAllCustomers()``` returns a list of Customer objects

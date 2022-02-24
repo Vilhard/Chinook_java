@@ -7,6 +7,7 @@ import com.example.chinook_java_assignment.model.customer.CustomerCountry;
 import com.example.chinook_java_assignment.model.customer.CustomerGenre;
 import com.example.chinook_java_assignment.model.customer.CustomerSpender;
 import com.example.chinook_java_assignment.model.music.Artist;
+import com.example.chinook_java_assignment.model.music.Track;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class CustomerController {
 
     @GetMapping("customer/favorite/{id}")
     public CustomerGenre getMostPopularGenreByCustomerId(@PathVariable String id) {return customerRepository.getMostPopularGenreByCustomerId(id);}
+
 
 }
 

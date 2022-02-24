@@ -76,4 +76,29 @@ public class MusicRepository implements IMusicRepository {
         Collections.shuffle(copy);
         return n > copy.size() ? copy.subList(0, copy.size()) : copy.subList(0, n);
     }
+
+
+    public ArrayList<Track> getSearchMatchingTracks(String keyword) {
+
+        ArrayList<Track> tracks = new ArrayList<Track>();
+
+        try {
+            Connection conn = ConnectionHelper.getInstance().getConnection();
+            String query = "SELECT TRACK.TrackId, TRACK.Name, TRACK.Composer, TRACK.AlbumId, TRACK.GenreId, ALBUM.Title, GENRE.Name AS Genre FROM TRACK INNER JOIN GENRE ON TRACK.GenreId = GENRE.GenreId INNER JOIN ALBUM ON TRACK.AlbumId = ALBUM.AlbumId WHERE TRACK.Name LIKE ?";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, "%" +keyword +"%");
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+
+                Track track = new Track(resultSet.getInt("TrackId"),resultSet.getString("Name"), resultSet.getString("Composer"),
+                        resultSet.getInt("AlbumId"), resultSet.getInt("GenreId"), resultSet.getString("Title"), resultSet.getString("Genre"));
+                tracks.add(track);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return tracks;
+    }
 }

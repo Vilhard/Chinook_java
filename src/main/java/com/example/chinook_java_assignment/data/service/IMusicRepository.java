@@ -13,4 +13,5 @@ public interface IMusicRepository {
     List<Artist> getFiveRandomArtists();
     List<Track> getFiveRandomTracks();
     List<Genre> getFiveRandomGenres();
+    List<Track> getSearchMatchingTracks(String keyword);
 }

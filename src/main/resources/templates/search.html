@@ -12,23 +12,15 @@
          <button type="submit" class="btn btn-info" >Search</button>
     </form>
 
-
-
-    <div>
-        <h2>Artists</h2>
-        <ul th:each="artist: ${artists}">
-            <li th:text="${artist.Name}"></li>
-        </ul>
-    </div>
     <div>
         <h2>Songs</h2>
         <ul th:each="track: ${tracks}">
             <li th:text="${track.Name}"></li>
+            <li th:text="${track.Composer}"></li>
+            <li th:text="${track.AlbumName}"></li>
+            <li th:text="${track.GenreName}"></li>
         </ul>
     </div>
-    <h2>Genres</h2>
-    <ul th:each="genre: ${genres}">
-        <li th:text="${genre.Name}"></li>
-    </ul>
+
 </body>
 </html>

@@ -1,10 +1,10 @@
 package com.example.chinook_java_assignment.data.service;
 
 import com.example.chinook_java_assignment.data.ConnectionHelper;
-import com.example.chinook_java_assignment.model.Customer;
-import com.example.chinook_java_assignment.model.CustomerCountry;
-import com.example.chinook_java_assignment.model.CustomerGenre;
-import com.example.chinook_java_assignment.model.CustomerSpender;
+import com.example.chinook_java_assignment.model.customer.Customer;
+import com.example.chinook_java_assignment.model.customer.CustomerCountry;
+import com.example.chinook_java_assignment.model.customer.CustomerGenre;
+import com.example.chinook_java_assignment.model.customer.CustomerSpender;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

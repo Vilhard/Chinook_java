@@ -94,6 +94,11 @@ public class MusicRepository implements IMusicRepository {
     }
 
 
+    /**
+     * Gets all keyword matching songs with additional genre and album info and adds them to arraylist and returns it
+     * @param keyword
+     * @return
+     */
     public ArrayList<Track> getSearchMatchingTracks(String keyword) {
 
         ArrayList<Track> tracks = new ArrayList<Track>();

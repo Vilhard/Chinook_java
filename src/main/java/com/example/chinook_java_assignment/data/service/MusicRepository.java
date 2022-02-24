@@ -13,6 +13,10 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class MusicRepository implements IMusicRepository {
+    /**
+     * gets all artists from database and adds them to a list. Uses helper method to sort out and return five random artists.
+     * @return
+     */
     @Override
     public List<Artist> getFiveRandomArtists() {
         List<Artist> artists = new ArrayList<>();
@@ -31,7 +35,10 @@ public class MusicRepository implements IMusicRepository {
         List<Artist> randomFiveArtist = randomPicker(artists, 5);
         return randomFiveArtist;
     }
-
+    /**
+     * gets all tracks from database and adds them to a list. Uses helper method to sort out and return five random tracks.
+     * @return
+     */
     @Override
     public List<Track> getFiveRandomTracks() {
         List<Track> tracks = new ArrayList<>();
@@ -51,7 +58,10 @@ public class MusicRepository implements IMusicRepository {
         List<Track> randomFiveTracks = randomPicker(tracks, 5);
         return randomFiveTracks;
     }
-
+    /**
+     * gets all genres from database and adds them to a list. Uses helper method to sort out and return five random genres.
+     * @return
+     */
     @Override
     public List<Genre> getFiveRandomGenres() {
         List<Genre> genres = new ArrayList<>();
@@ -70,7 +80,13 @@ public class MusicRepository implements IMusicRepository {
         List<Genre> randomFiveGenres = randomPicker(genres, 5);
         return randomFiveGenres;
     }
-
+    /**
+     * Helper method that uses generics to find and return number of n elements from a parameter list
+     * @param t
+     * @param n
+     * @param <T>
+     * @return
+     */
     public static <T> List<T> randomPicker(List<T> t, int n) {
         List<T> copy = new ArrayList<T>(t);
         Collections.shuffle(copy);

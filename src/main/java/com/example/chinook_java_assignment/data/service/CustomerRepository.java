@@ -15,7 +15,10 @@ import java.util.Collection;
 import java.util.List;
 
 public class CustomerRepository implements ICustomerRepository {
-
+    /**
+     * returns a list of all customers for the sqlite database
+     * @return
+     */
     @Override
     public Collection<Customer> getAllCustomers() {
         Collection<Customer> customers = new ArrayList<>();
@@ -36,6 +39,11 @@ public class CustomerRepository implements ICustomerRepository {
         return customers;
     }
 
+    /**
+     * Returns a specific customer by id.
+     * @param id
+     * @return
+     */
     @Override
     public Customer getCustomerById(String id) {
         Customer customer = null;
@@ -56,6 +64,11 @@ public class CustomerRepository implements ICustomerRepository {
         return customer;
     }
 
+    /**
+     * Returns a specific customer by name. Works with partial matches.
+     * @param name
+     * @return
+     */
     @Override
     public Customer getCustomerByName(String name) {
         Customer customer = null;
@@ -75,6 +88,12 @@ public class CustomerRepository implements ICustomerRepository {
         return customer;
     }
 
+    /**
+     * Returns a page of customers from the database. Takes in a limit and offset to determine the subset
+     * @param limit
+     * @param offset
+     * @return
+     */
     @Override
     public List<Customer> getPageOfCustomers(Integer limit, Integer offset) {
         List<Customer> customers = new ArrayList<>();
@@ -96,6 +115,11 @@ public class CustomerRepository implements ICustomerRepository {
         return customers;
     }
 
+    /**
+     * Adds new created user to the database
+     * @param newCustomer
+     * @return
+     */
     @Override
     public Customer addCustomer(Customer newCustomer) {
         Connection conn = ConnectionHelper.getInstance().getConnection();

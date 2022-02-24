@@ -12,6 +12,11 @@ import java.util.ArrayList;
 public class MusicController {
  MusicRepository musicRepository = new MusicRepository();
 
+ /**
+  * View for the root page that shows list of artists,tracks and genres from the sqlite database
+  * @param model
+  * @return
+  */
  @GetMapping("/")
  public String view(
          Model model
